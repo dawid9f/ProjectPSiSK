@@ -51,7 +51,8 @@ namespace ProjectPSiSK.Services
             {
                 Send(new MessageModel("Stop sending to IoT"));
                 IsEnable = false;
-                //await _deviceClient.CloseAsync();
+                await _deviceClient.CloseAsync();
+                _deviceClient.Dispose();
             }
         }
 
