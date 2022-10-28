@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using ProjectPSiSK.Models;
 using ProjectPSiSK.Services;
 using System.IO.Ports;
 
@@ -30,6 +31,12 @@ namespace ProjectPSiSK
             ckBoxView.Enabled = false;
             btnDelete.Enabled = false;
             txBoxIn.Enabled = false;
+            txBoxIn.ReadOnly = true;
+            btnStartIoT.Enabled = false;
+            btnStopIoT.Enabled = false;
+            txDivId.Enabled = false;
+            txDivKey.Enabled = false;
+            txHostIoT.Enabled = false;
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -60,6 +67,11 @@ namespace ProjectPSiSK
                 ckBoxView.Enabled = true;
                 btnDelete.Enabled = true;
                 txBoxIn.Enabled = true;
+                btnStartIoT.Enabled = true;
+                btnStopIoT.Enabled = false;
+                txDivId.Enabled = true;
+                txDivKey.Enabled = true;
+                txHostIoT.Enabled = true;
             }
         }
 
@@ -85,6 +97,11 @@ namespace ProjectPSiSK
                 ckBoxView.Enabled = false;
                 btnDelete.Enabled = false;
                 txBoxIn.Enabled = false;
+                btnStopIoT_Click(sender, e);
+                btnStartIoT.Enabled = false;
+                txDivId.Enabled = false;
+                txDivKey.Enabled = false;
+                txHostIoT.Enabled = false;
             }
         }
 
@@ -178,6 +195,11 @@ namespace ProjectPSiSK
                 {
                     _fileClass.WriteFIle(data);
                 }
+
+                if (_ioTHubService.IsEnable)
+                {
+                    _ioTHubService.Send(new MessageModel(data));
+                }
             }
         }
 
@@ -189,13 +211,28 @@ namespace ProjectPSiSK
                     txHostIoT.Text
                 ))
             {
-
+                btnStartIoT.Enabled = false;
+                btnStopIoT.Enabled = true;
+                txDivId.Enabled = false;
+                txDivKey.Enabled = false;
+                txHostIoT.Enabled = false;
+                labelStatusIoT.Text = "ON";
+                labelStatusIoT.ForeColor = Color.Green;
+                pgBarIot.Value = 100;
             }
         }
 
         private void btnStopIoT_Click(object sender, EventArgs e)
         {
-
+            _ioTHubService.StopSendIoT();
+            btnStartIoT.Enabled = true;
+            btnStopIoT.Enabled = false;
+            txDivId.Enabled = true;
+            txDivKey.Enabled = true;
+            txHostIoT.Enabled = true;
+            labelStatusIoT.Text = "OFF";
+            labelStatusIoT.ForeColor = Color.Red;
+            pgBarIot.Value = 0;
         }
     }
 }
