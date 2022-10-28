@@ -75,8 +75,9 @@ namespace ProjectPSiSK
             }
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private async void btnClose_Click(object sender, EventArgs e)
         {
+            await _ioTHubService.StopIoT();
             if (_serialPortClass.ClosePort())
             {
                 pgBarStatus.Value = 0;
@@ -97,11 +98,13 @@ namespace ProjectPSiSK
                 ckBoxView.Enabled = false;
                 btnDelete.Enabled = false;
                 txBoxIn.Enabled = false;
-                btnStopIoT_Click(sender, e);
                 btnStartIoT.Enabled = false;
                 txDivId.Enabled = false;
                 txDivKey.Enabled = false;
                 txHostIoT.Enabled = false;
+                btnStopIoT.Enabled = false;
+                labelStatusIoT.Text = "OFF";
+                labelStatusIoT.ForeColor = Color.Red;
             }
         }
 
@@ -179,7 +182,7 @@ namespace ProjectPSiSK
             txBoxIn.Text = "";
         }
 
-        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        private async void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
             if (InvokeRequired)
                 Invoke(DataReceivedHandler, sender, e);
@@ -198,18 +201,19 @@ namespace ProjectPSiSK
 
                 if (_ioTHubService.IsEnable)
                 {
-                    _ioTHubService.Send(new MessageModel(data));
+                    await _ioTHubService.SendToIoT(data);
                 }
             }
         }
 
-        private void btnStartIoT_Click(object sender, EventArgs e)
+        private async void btnStartIoT_Click(object sender, EventArgs e)
         {
-            if (_ioTHubService.StartSendIoT(
+            bool good = await _ioTHubService.StartIoT(
                     txDivId.Text,
                     txDivKey.Text,
                     txHostIoT.Text
-                ))
+                );
+            if (good)
             {
                 btnStartIoT.Enabled = false;
                 btnStopIoT.Enabled = true;
@@ -222,17 +226,20 @@ namespace ProjectPSiSK
             }
         }
 
-        private void btnStopIoT_Click(object sender, EventArgs e)
+        private async void btnStopIoT_Click(object sender, EventArgs e)
         {
-            _ioTHubService.StopSendIoT();
-            btnStartIoT.Enabled = true;
-            btnStopIoT.Enabled = false;
-            txDivId.Enabled = true;
-            txDivKey.Enabled = true;
-            txHostIoT.Enabled = true;
-            labelStatusIoT.Text = "OFF";
-            labelStatusIoT.ForeColor = Color.Red;
-            pgBarIot.Value = 0;
+            bool good = await _ioTHubService.StopIoT();
+            if (good)
+            {
+                btnStartIoT.Enabled = true;
+                btnStopIoT.Enabled = false;
+                txDivId.Enabled = true;
+                txDivKey.Enabled = true;
+                txHostIoT.Enabled = true;
+                labelStatusIoT.Text = "OFF";
+                labelStatusIoT.ForeColor = Color.Red;
+                pgBarIot.Value = 0;
+            }
         }
     }
 }
