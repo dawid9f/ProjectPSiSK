@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.IO.Ports;
 using Microsoft.VisualBasic;
 
-namespace ProjectPSiSK
+namespace ProjectPSiSK.Services
 {
-    public class SerialPortClass
+    public class SerialPortService
     {
         public SerialPort _serialPort { get; set; }
         public bool WriteLine { get; set; }
@@ -16,7 +16,7 @@ namespace ProjectPSiSK
         public bool LogToTxt { get; set; }
         public bool ViewData { get; set; }
 
-        public SerialPortClass(int writeTimeout, int readTimeout)
+        public SerialPortService(int writeTimeout, int readTimeout)
         {
             _serialPort = new SerialPort();
             _serialPort.WriteTimeout = writeTimeout;

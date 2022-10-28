@@ -8,13 +8,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-	<ItemGroup>
-    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  <ItemGroup>
+    <Compile Remove="logs\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="logs\**" />
   </ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="logs\" />
-	</ItemGroup>		
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  </ItemGroup>		
 	
 
 

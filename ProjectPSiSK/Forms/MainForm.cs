@@ -1,17 +1,19 @@
 using Microsoft.VisualBasic;
+using ProjectPSiSK.Services;
 using System.IO.Ports;
 
 namespace ProjectPSiSK
 {
     public partial class MainForm : Form
     {
-        private SerialPortClass _serialPortClass;
-        private FileClass _fileClass;
+        private SerialPortService _serialPortClass;
+        private FileService _fileClass;
+        private IoTHubService _ioTHubService;
         public MainForm()
         {
-            _serialPortClass = new SerialPortClass(500, 500);
-            _fileClass = new FileClass();
-
+            _serialPortClass = new SerialPortService(500, 500);
+            _fileClass = new FileService();
+            _ioTHubService = new IoTHubService();
             InitializeComponent();
 
 
@@ -38,7 +40,7 @@ namespace ProjectPSiSK
                     cbBoxDataB.Text,
                     cbBoxStopB.Text,
                     cbBoxParityB.Text
-            ))
+                ))
             {
                 pgBarStatus.Value = 100;
                 btnClose.Enabled = true;
@@ -177,6 +179,23 @@ namespace ProjectPSiSK
                     _fileClass.WriteFIle(data);
                 }
             }
+        }
+
+        private void btnStartIoT_Click(object sender, EventArgs e)
+        {
+            if (_ioTHubService.StartSendIoT(
+                    txDivId.Text,
+                    txDivKey.Text,
+                    txHostIoT.Text
+                ))
+            {
+
+            }
+        }
+
+        private void btnStopIoT_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

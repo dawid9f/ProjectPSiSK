@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace ProjectPSiSK
+namespace ProjectPSiSK.Services
 {
-    public class FileClass
+    public class FileService
     {
         public string fileUrl { get; set; }
-        public FileClass()
+        public FileService()
         {
             UpdateFileUrl();
             WriteFIle("test");
@@ -23,9 +23,9 @@ namespace ProjectPSiSK
 
         public void WriteFIle(string data)
         {
-            if (!System.IO.Directory.Exists(@".\logs"))
+            if (!Directory.Exists(@".\logs"))
             {
-                System.IO.Directory.CreateDirectory(@".\logs");
+                Directory.CreateDirectory(@".\logs");
             }
 
             StreamWriter sw = new StreamWriter(fileUrl, true, Encoding.ASCII);
