@@ -16,11 +16,11 @@ namespace ProjectPSiSK
         public bool LogToTxt { get; set; }
         public bool ViewData { get; set; }
 
-        public SerialPortClass()
+        public SerialPortClass(int writeTimeout, int readTimeout)
         {
             _serialPort = new SerialPort();
-            _serialPort.WriteTimeout = 500;
-            _serialPort.ReadTimeout = 500;
+            _serialPort.WriteTimeout = writeTimeout;
+            _serialPort.ReadTimeout = readTimeout;
         }
 
         public string[] GetPortNames()

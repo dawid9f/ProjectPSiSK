@@ -8,7 +8,7 @@ namespace ProjectPSiSK
         private SerialPortClass _serialPortClass;
         public Form1()
         {
-            _serialPortClass = new SerialPortClass();
+            _serialPortClass = new SerialPortClass(500, 500);
             
             InitializeComponent();
 
