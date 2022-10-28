@@ -13,7 +13,6 @@ namespace ProjectPSiSK.Services
         public FileService()
         {
             UpdateFileUrl();
-            WriteFIle("test");
         }
 
         public void UpdateFileUrl()
@@ -29,7 +28,7 @@ namespace ProjectPSiSK.Services
             }
 
             StreamWriter sw = new StreamWriter(fileUrl, true, Encoding.ASCII);
-            sw.Write(data);
+            sw.WriteLine("[" + DateTime.UtcNow.ToString("G") + "][" + data + "]");
             sw.Close();
         }
     }
