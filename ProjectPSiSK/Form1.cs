@@ -6,9 +6,11 @@ namespace ProjectPSiSK
     public partial class Form1 : Form
     {
         private SerialPortClass _serialPortClass;
+        private FileClass _fileClass;
         public Form1()
         {
             _serialPortClass = new SerialPortClass(500, 500);
+            _fileClass = new FileClass();
             
             InitializeComponent();
 
