@@ -28,7 +28,7 @@ namespace ProjectPSiSK.Services
             }
 
             StreamWriter sw = new StreamWriter(fileUrl, true, Encoding.ASCII);
-            sw.WriteLine("[" + DateTime.UtcNow.ToString("G") + "][" + data + "]");
+            sw.WriteLine("[" + DateTime.UtcNow.ToString("G") + "] " + data);
             sw.Close();
         }
     }
