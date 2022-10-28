@@ -11,7 +11,7 @@ namespace ProjectPSiSK
         {
             _serialPortClass = new SerialPortClass(500, 500);
             _fileClass = new FileClass();
-            
+
             InitializeComponent();
 
 
@@ -170,6 +170,11 @@ namespace ProjectPSiSK
                 if (_serialPortClass.ViewData)
                 {
                     txBoxIn.Text += data + System.Environment.NewLine;
+                }
+
+                if (_serialPortClass.LogToTxt)
+                {
+                    _fileClass.WriteFIle(data);
                 }
             }
         }
