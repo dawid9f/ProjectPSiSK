@@ -3,11 +3,11 @@ using System.IO.Ports;
 
 namespace ProjectPSiSK
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private SerialPortClass _serialPortClass;
         private FileClass _fileClass;
-        public Form1()
+        public MainForm()
         {
             _serialPortClass = new SerialPortClass(500, 500);
             _fileClass = new FileClass();
