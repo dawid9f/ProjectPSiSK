@@ -9,7 +9,7 @@ namespace ProjectPSiSK.Services
 {
     public class FileService
     {
-        public string fileUrl { get; set; }
+        public string fileUrl { get; set; } = string.Empty;
         public FileService()
         {
             UpdateFileUrl();

@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using ProjectPSiSK.Models;
 using ProjectPSiSK.Services;
 using System.IO.Ports;
@@ -10,15 +11,32 @@ namespace ProjectPSiSK
         private SerialPortService _serialPortClass;
         private FileService _fileClass;
         private IoTHubService _ioTHubService;
+
         public MainForm()
         {
             _serialPortClass = new SerialPortService(500, 500);
             _fileClass = new FileService();
             _ioTHubService = new IoTHubService();
+
             InitializeComponent();
 
+            if (File.Exists(@".\settingsIoT.json"))
+            {
+                string settingsString = File.ReadAllText(@".\settingsIoT.json");
+                IoTSettingsModel? settings = JsonConvert.DeserializeObject<IoTSettingsModel>(settingsString);
 
+                if (settings != null)
+                {
+                    txDivId.Text = settings.DivId;
+                    txDivKey.Text = settings.DivKey;
+                    txHostIoT.Text = settings.HostName;
+                }
+            }
+
+            //Update Settings
             cbBoxPort.Items.AddRange(_serialPortClass.GetPortNames());
+
+            //Add Event to read com
             _serialPortClass._serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
             //Disabled on start
@@ -223,6 +241,10 @@ namespace ProjectPSiSK
                 labelStatusIoT.Text = "ON";
                 labelStatusIoT.ForeColor = Color.Green;
                 pgBarIot.Value = 100;
+
+                IoTSettingsModel settings = new IoTSettingsModel(txDivId.Text, txDivKey.Text, txHostIoT.Text);
+                string settingsString = JsonConvert.SerializeObject(settings);
+                File.WriteAllText(@".\settingsIoT.json", settingsString);
             }
         }
 

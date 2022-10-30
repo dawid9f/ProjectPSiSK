@@ -16,6 +16,7 @@
 
 	<ItemGroup>
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.41.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>		
 	
